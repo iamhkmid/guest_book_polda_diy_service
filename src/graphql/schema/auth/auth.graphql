@@ -1,0 +1,14 @@
+type Mutation {
+  login(username: String!, password: String!): loginData
+}
+
+type loginData {
+  message: String
+  user: loginUserData
+}
+
+type loginUserData {
+  fullName: String
+  username: String
+  role: String
+}

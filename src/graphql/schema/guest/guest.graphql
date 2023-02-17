@@ -1,0 +1,35 @@
+type Query {
+  guests: [Guest]
+  guest(guestId: ID!): Guest
+}
+
+type Mutation {
+  addGuest(data: addGuestInput!): Guest @auth(requires: ADMIN)
+  updateGuest(data: updateGuestInput!): Guest @auth(requires: ADMIN)
+  deleteGuest(guestId: ID!): Guest @auth(requires: ADMIN)
+}
+
+input addGuestInput {
+  name: String!
+  address: String!
+  phoneNumber: String!
+  description: String!
+}
+
+input updateGuestInput {
+  guestId: ID!
+  name: String
+  address: String
+  phoneNumber: String
+  description: String
+}
+
+type Guest {
+  id: ID
+  name: String
+  address: String
+  phoneNumber: String
+  description: String
+  createdAt: Date
+  updatedAt: Date
+}
