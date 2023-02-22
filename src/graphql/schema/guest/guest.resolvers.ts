@@ -6,7 +6,19 @@ export const Query: QueryResolvers = {
   },
   guest: async (_, { guestId }, { db }) => {
     return await db.guest.findUnique({ where: { id: guestId } })
-  }
+  },
+  summary: async (_, __, { db }) => {
+    const datenow = new Date(new Date().setHours(0, 0, 0, 0))
+    const oneYear = await db.guest.findMany(({
+      where: { createdAt: { gte: datenow, lt: new Date(datenow.getTime() - new Date(datenow.setFullYear(datenow.getFullYear() + 1)).getTime()) } },
+      select: { createdAt: true }
+    }))
+    const day = oneYear.filter((trans) => trans.createdAt.getDate() >= datenow.getDate() && trans.createdAt.getDate() < new Date(datenow.setDate(datenow.getDate() + 1)).getTime()).length
+    const week = oneYear.filter((trans) => trans.createdAt.getDate() >= datenow.getDate() && trans.createdAt.getDate() < new Date(datenow.setDate(datenow.getDate() + 7)).getTime()).length
+    const month = oneYear.filter((trans) => trans.createdAt.getDate() >= datenow.getDate() && trans.createdAt.getDate() < new Date(datenow.setMonth(datenow.getMonth() + 1)).getTime()).length
+    const year = oneYear.length;
+    return { numberOfVisits: { day, week, month, year } }
+  },
 };
 
 export const Mutation: MutationResolvers = {

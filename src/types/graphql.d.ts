@@ -56,15 +56,29 @@ export type MutationUpdateGuestArgs = {
   data: UpdateGuestInput;
 };
 
+export type NumberOfVisits = {
+  __typename?: 'NumberOfVisits';
+  day?: Maybe<Scalars['Int']>;
+  month?: Maybe<Scalars['Int']>;
+  week?: Maybe<Scalars['Int']>;
+  year?: Maybe<Scalars['Int']>;
+};
+
 export type Query = {
   __typename?: 'Query';
   guest?: Maybe<Guest>;
   guests?: Maybe<Array<Maybe<Guest>>>;
+  summary?: Maybe<Summary>;
 };
 
 
 export type QueryGuestArgs = {
   guestId: Scalars['ID'];
+};
+
+export type Summary = {
+  __typename?: 'Summary';
+  numberOfVisits?: Maybe<NumberOfVisits>;
 };
 
 export type AddGuestInput = {
@@ -173,9 +187,12 @@ export type ResolversTypes = {
   Date: ResolverTypeWrapper<Scalars['Date']>;
   Guest: ResolverTypeWrapper<Guest>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
+  Int: ResolverTypeWrapper<Scalars['Int']>;
   Mutation: ResolverTypeWrapper<{}>;
+  NumberOfVisits: ResolverTypeWrapper<NumberOfVisits>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
+  Summary: ResolverTypeWrapper<Summary>;
   addGuestInput: AddGuestInput;
   authRole: AuthRole;
   loginData: ResolverTypeWrapper<LoginData>;
@@ -189,9 +206,12 @@ export type ResolversParentTypes = {
   Date: Scalars['Date'];
   Guest: Guest;
   ID: Scalars['ID'];
+  Int: Scalars['Int'];
   Mutation: {};
+  NumberOfVisits: NumberOfVisits;
   Query: {};
   String: Scalars['String'];
+  Summary: Summary;
   addGuestInput: AddGuestInput;
   loginData: LoginData;
   loginUserData: LoginUserData;
@@ -226,9 +246,23 @@ export type MutationResolvers<ContextType = TGraphqlCtx, ParentType extends Reso
   updateGuest?: Resolver<Maybe<ResolversTypes['Guest']>, ParentType, ContextType, RequireFields<MutationUpdateGuestArgs, 'data'>>;
 };
 
+export type NumberOfVisitsResolvers<ContextType = TGraphqlCtx, ParentType extends ResolversParentTypes['NumberOfVisits'] = ResolversParentTypes['NumberOfVisits']> = {
+  day?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  month?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  week?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  year?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type QueryResolvers<ContextType = TGraphqlCtx, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   guest?: Resolver<Maybe<ResolversTypes['Guest']>, ParentType, ContextType, RequireFields<QueryGuestArgs, 'guestId'>>;
   guests?: Resolver<Maybe<Array<Maybe<ResolversTypes['Guest']>>>, ParentType, ContextType>;
+  summary?: Resolver<Maybe<ResolversTypes['Summary']>, ParentType, ContextType>;
+};
+
+export type SummaryResolvers<ContextType = TGraphqlCtx, ParentType extends ResolversParentTypes['Summary'] = ResolversParentTypes['Summary']> = {
+  numberOfVisits?: Resolver<Maybe<ResolversTypes['NumberOfVisits']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type LoginDataResolvers<ContextType = TGraphqlCtx, ParentType extends ResolversParentTypes['loginData'] = ResolversParentTypes['loginData']> = {
@@ -248,7 +282,9 @@ export type Resolvers<ContextType = TGraphqlCtx> = {
   Date?: GraphQLScalarType;
   Guest?: GuestResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
+  NumberOfVisits?: NumberOfVisitsResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  Summary?: SummaryResolvers<ContextType>;
   loginData?: LoginDataResolvers<ContextType>;
   loginUserData?: LoginUserDataResolvers<ContextType>;
 };

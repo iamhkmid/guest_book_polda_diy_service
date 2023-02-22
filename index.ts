@@ -6,7 +6,7 @@ import graphqlServer from "./src/graphql"
 import * as dotenv from 'dotenv'
 
 dotenv.config()
-const PORT = parseInt(process.env.PORT || "3001");
+const PORT = parseInt(process.env.PORT || "3002");
 export const corsOptions = { origin: "*", exposedHeaders: ["Authorization"] };
 
 const main = async () => {

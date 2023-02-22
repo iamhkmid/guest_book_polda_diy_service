@@ -1,6 +1,7 @@
 type Query {
   guests: [Guest]
   guest(guestId: ID!): Guest
+  summary: Summary
 }
 
 type Mutation {
@@ -32,4 +33,16 @@ type Guest {
   description: String
   createdAt: Date
   updatedAt: Date
+}
+
+
+type Summary {
+  numberOfVisits: NumberOfVisits
+}
+
+type NumberOfVisits {
+  day: Int
+  week: Int
+  month: Int
+  year: Int
 }
