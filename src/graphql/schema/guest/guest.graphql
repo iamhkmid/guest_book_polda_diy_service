@@ -1,11 +1,11 @@
 type Query {
-  guests: [Guest]
-  guest(guestId: ID!): Guest
-  summary: Summary
+  guests: [Guest] @auth(requires: ADMIN)
+  guest(guestId: ID!): Guest @auth(requires: ADMIN)
+  summary: Summary @auth(requires: ADMIN)
 }
 
 type Mutation {
-  addGuest(data: addGuestInput!): Guest @auth(requires: ADMIN)
+  addGuest(data: addGuestInput!): Guest
   updateGuest(data: updateGuestInput!): Guest @auth(requires: ADMIN)
   deleteGuest(guestId: ID!): Guest @auth(requires: ADMIN)
 }
@@ -34,7 +34,6 @@ type Guest {
   createdAt: Date
   updatedAt: Date
 }
-
 
 type Summary {
   numberOfVisits: NumberOfVisits
