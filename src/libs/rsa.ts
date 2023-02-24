@@ -1,9 +1,7 @@
 import crypto from "crypto"
 
-const PUBLIC_KEY = process.env.PUBLIC_KEY as string
-const PRIVATE_KEY = process.env.PRIVATE_KEY as string
-
 export const encryptRSA = (text: string) => {
+  const PUBLIC_KEY = process.env.PUBLIC_KEY as string
   const encrypted = crypto.publicEncrypt(
     {
       key: PUBLIC_KEY,
@@ -15,6 +13,7 @@ export const encryptRSA = (text: string) => {
 }
 
 export const decryptRSA = (encryptedText: string) => {
+  const PRIVATE_KEY = process.env.PRIVATE_KEY as string
   const decrypted = crypto.privateDecrypt(
     {
       key: PRIVATE_KEY,
