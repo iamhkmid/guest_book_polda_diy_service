@@ -8,14 +8,23 @@ export const Query: QueryResolvers = {
     return await db.guest.findUnique({ where: { id: guestId } })
   },
   summary: async (_, __, { db }) => {
-    const datenow = new Date(new Date().setHours(0, 0, 0, 0))
+    const startYear = new Date(`${new Date().getFullYear()}-01-01T00:00:00.000+07:00`)
+    const endYear = new Date(new Date().setFullYear(new Date(startYear).getFullYear() + 1))
+    const startMonth = new Date(new Date(new Date(new Date(startYear).setFullYear(new Date().getFullYear()))).setMonth(new Date().getMonth()))
+    const endMonth = new Date(new Date(startMonth).setMonth(new Date().getMonth() + 1))
+    const startWeek = new Date(new Date(startMonth).setDate(new Date().getDate() - new Date().getDay()))
+    const endWeek = new Date(new Date(startWeek).setDate(new Date(startWeek).getDate() + 7))
+    const startDate = new Date(new Date(new Date(startMonth).setMonth(new Date().getMonth())).setDate(new Date().getDate()))
+    const endDate = new Date(new Date(startDate).setDate(new Date(startDate).getDate() + 1))
+    
     const oneYear = await db.guest.findMany(({
-      where: { createdAt: { gte: datenow, lt: new Date(datenow.getTime() - new Date(datenow.setFullYear(datenow.getFullYear() + 1)).getTime()) } },
+      where: { createdAt: { gte: startYear, lt: endYear } },
       select: { createdAt: true }
     }))
-    const day = oneYear.filter((trans) => trans.createdAt.getDate() >= datenow.getDate() && trans.createdAt.getDate() < new Date(datenow.setDate(datenow.getDate() + 1)).getTime()).length
-    const week = oneYear.filter((trans) => trans.createdAt.getDate() >= datenow.getDate() && trans.createdAt.getDate() < new Date(datenow.setDate(datenow.getDate() + 7)).getTime()).length
-    const month = oneYear.filter((trans) => trans.createdAt.getDate() >= datenow.getDate() && trans.createdAt.getDate() < new Date(datenow.setMonth(datenow.getMonth() + 1)).getTime()).length
+
+    const day = oneYear.filter((trans) => trans.createdAt.getTime() >= new Date(startDate).getTime() && trans.createdAt.getTime() < new Date(endDate).getTime()).length
+    const week = oneYear.filter((trans) => trans.createdAt.getTime() >= new Date(startWeek).getTime() && trans.createdAt.getTime() < new Date(endWeek).getTime()).length
+    const month = oneYear.filter((trans) => trans.createdAt.getTime() >= new Date(startMonth).getTime() && trans.createdAt.getTime() < new Date(endMonth).getTime()).length
     const year = oneYear.length;
     return { numberOfVisits: { day, week, month, year } }
   },
