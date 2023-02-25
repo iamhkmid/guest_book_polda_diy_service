@@ -17,7 +17,8 @@ export const Query: QueryResolvers = {
     const endWeek = new Date(new Date(startWeek).setDate(new Date(startWeek).getDate() + 7))
     const startDate = new Date(new Date(new Date(startMonth).setMonth(new Date().getMonth())).setDate(new Date().getDate()))
     const endDate = new Date(new Date(startDate).setDate(new Date(startDate).getDate() + 1))
-    
+    console.log({ startYear, endYear, startMonth, endMonth, startWeek, endWeek, startDate, endDate })
+
     const oneYear = await db.guest.findMany(({
       where: { createdAt: { gte: startYear, lt: endYear } },
       select: { createdAt: true }
