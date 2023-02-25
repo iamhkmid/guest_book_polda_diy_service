@@ -8,6 +8,7 @@ export const Query: QueryResolvers = {
     return await db.guest.findUnique({ where: { id: guestId } })
   },
   summary: async (_, __, { db }) => {
+    console.log(new Date())
     const startYear = new Date(`${new Date().getFullYear()}-01-01T00:00:00.000+07:00`)
     const endYear = new Date(new Date().setFullYear(new Date(startYear).getFullYear() + 1))
     const startMonth = new Date(new Date(new Date(new Date(startYear).setFullYear(new Date().getFullYear()))).setMonth(new Date().getMonth()))
