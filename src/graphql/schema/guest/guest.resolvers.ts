@@ -11,7 +11,7 @@ export const Query: QueryResolvers = {
     console.log(new Date())
     const startYear = new Date(`${new Date().getFullYear()}-01-01T00:00:00.000+07:00`)
     const endYear = new Date(new Date(startYear).setFullYear(new Date(startYear).getFullYear() + 1))
-    const startMonth = new Date(new Date(`${new Date().getFullYear()}-${new Date().getMonth()}-01T00:00:00.000+07:00`))
+    const startMonth = new Date(new Date(new Date(new Date(startYear).setFullYear(new Date().getFullYear()))).setMonth(new Date().getMonth()))
     const endMonth = new Date(new Date(startMonth).setMonth(new Date().getMonth() + 1))
     const startWeek = new Date(new Date(startMonth).setDate(new Date().getDate() - new Date().getDay()))
     const endWeek = new Date(new Date(startWeek).setDate(new Date(startWeek).getDate() + 7))
