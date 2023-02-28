@@ -38,7 +38,7 @@ export const Mutation: MutationResolvers = {
         name: data.name,
         address: data.address,
         phoneNumber: data.phoneNumber,
-        description: data.address
+        description: data.description
       },
     })
     return addGuest
