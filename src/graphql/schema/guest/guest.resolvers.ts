@@ -49,7 +49,7 @@ export const Mutation: MutationResolvers = {
         name: data.name || undefined,
         address: data.address || undefined,
         phoneNumber: data.phoneNumber || undefined,
-        description: data.address || undefined
+        description: data.description || undefined
       },
     })
     return updateBook
