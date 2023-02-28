@@ -10,14 +10,20 @@ export const Query: QueryResolvers = {
   summary: async (_, __, { db }) => {
     const startYear = new Date(`${new Date().getFullYear()}-01-01T00:00:00.000+07:00`)
     const endYear = new Date(new Date(startYear).setFullYear(new Date(startYear).getFullYear() + 1))
-    const currMonth = new Date().getMonth()
+
+    const currMonth = new Date(new Date().setHours(new Date().getHours() - 7)).getMonth() + 1
     const startMonth = new Date(`${new Date().getFullYear()}-${currMonth < 10 ? `0${currMonth}` : currMonth}-01T00:00:00.000+07:00`)
     const endMonth = new Date(new Date(startMonth).setMonth(new Date().getMonth() + 1))
-    const startWeek = new Date(new Date().setDate(new Date().getDate() - new Date().getDay()))
+
+    const currDate = new Date(new Date().setHours(new Date().getHours() - 7))
+    const startWeek = new Date(new Date(currDate).setDate(new Date(currDate).getDate() - new Date(currDate).getDay()))
     const endWeek = new Date(new Date(startWeek).setDate(new Date(startWeek).getDate() + 7))
-    const startDate = new Date(new Date(new Date(startMonth).setMonth(new Date().getMonth())).setDate(new Date().getDate()))
+
+    const startDate = new Date(`${new Date().getFullYear()}-${currMonth < 10 ? `0${currMonth}` : currMonth}-${currDate.getDate()}T00:00:00.000+07:00`)
     const endDate = new Date(new Date(startDate).setDate(new Date(startDate).getDate() + 1))
+
     console.log({ startYear, endYear, startMonth, endMonth, startWeek, endWeek, startDate, endDate })
+
     const oneYear = await db.guest.findMany(({
       where: { createdAt: { gte: startYear, lt: endYear } },
       select: { createdAt: true }
