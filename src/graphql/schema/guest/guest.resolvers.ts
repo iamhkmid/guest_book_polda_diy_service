@@ -16,19 +16,17 @@ export const Query: QueryResolvers = {
     const endMonth = new Date(new Date(startMonth).setMonth(new Date().getMonth() + 1))
 
     const currDate = new Date(new Date().setHours(new Date().getHours() - 7))
-    const startWeek = new Date(new Date(currDate).setDate(new Date(currDate).getDate() - new Date(currDate).getDay()))
+    const currWeek = new Date(new Date(currDate).setDate(new Date(currDate).getDate() - new Date(currDate).getDay()))
+    const startWeek = new Date(`${new Date(currDate).getFullYear()}-${currMonth < 10 ? `0${currMonth}` : currMonth}-${currWeek.getDate() < 10 ? `0${currWeek.getDate()}` : currWeek.getDate()}T00:00:00.000+07:00`)
     const endWeek = new Date(new Date(startWeek).setDate(new Date(startWeek).getDate() + 7))
 
-    const startDate = new Date(`${new Date().getFullYear()}-${currMonth < 10 ? `0${currMonth}` : currMonth}-${currDate.getDate()}T00:00:00.000+07:00`)
+    const startDate = new Date(`${new Date(currDate).getFullYear()}-${currMonth < 10 ? `0${currMonth}` : currMonth}-${currDate.getDate() < 10 ? `0${currDate.getDate()}` : currDate.getDate()}T00:00:00.000+07:00`)
     const endDate = new Date(new Date(startDate).setDate(new Date(startDate).getDate() + 1))
-
-    console.log({ startYear, endYear, startMonth, endMonth, startWeek, endWeek, startDate, endDate })
 
     const oneYear = await db.guest.findMany(({
       where: { createdAt: { gte: startYear, lt: endYear } },
       select: { createdAt: true }
     }))
-    console.log(oneYear)
 
     const day = oneYear.filter((trans) => trans.createdAt.getTime() >= new Date(startDate).getTime() && trans.createdAt.getTime() < new Date(endDate).getTime()).length
     const week = oneYear.filter((trans) => trans.createdAt.getTime() >= new Date(startWeek).getTime() && trans.createdAt.getTime() < new Date(endWeek).getTime()).length
