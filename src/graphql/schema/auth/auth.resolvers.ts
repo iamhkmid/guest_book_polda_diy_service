@@ -14,6 +14,7 @@ export const Mutation: MutationResolvers = {
     if (!findUser.isActive) throw new GraphQLError('Inactive account', { extensions: { code: 'FORBIDDEN' } })
 
     const checkPw = await bcrypt.compare(decryptedPass, findUser.password)
+    
     if (!checkPw)
       throw new GraphQLError("Username or Password incorrect", { extensions: { code: 'FORBIDDEN' } })
 
